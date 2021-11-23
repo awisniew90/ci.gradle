@@ -406,6 +406,26 @@ class DevTask extends AbstractServerTask {
             // not supported for Gradle, only used for multi module Maven projects
             return false;
         }
+        
+        @Override
+        protected void updateLooseApp() throws PluginExecutionException {
+        	// not supported for Gradle, only used for exploded war Maven projects
+        }
+        
+        @Override
+        protected void resourceDirectoryCreated() throws IOException {
+            // Nothing to do
+        }
+
+        @Override
+        protected void resourceModifiedOrCreated(File fileChanged, File resourceParent, File outputDirectory) throws IOException {
+            copyFile(fileChanged, resourceParent, outputDirectory, null);
+        }
+
+        @Override
+        protected void resourceDeleted(File fileChanged, File resourceParent, File outputDirectory) throws IOException {
+            deleteFile(fileChanged, resourceParent, outputDirectory, null);
+        }
 
         @Override
         public boolean recompileBuildFile(File buildFile, Set<String> compileArtifactPaths, Set<String> testArtifactPaths, ThreadPoolExecutor executor) {
